@@ -33,6 +33,7 @@ jobs:
       # 4. Run data pipeline
       - name: Run data pipeline
         env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
           HOSTNAME: ${{ secrets.HOSTNAME }} # import API key
           PASSWORD: ${{ secrets.PASSWORD }} # import API key
           PORT: ${{ secrets.PORT }} # import API key
