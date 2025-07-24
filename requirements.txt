@@ -1,0 +1,6 @@
+pandas
+numpy
+paramiko
+pysftp
+zipfile
+glob
