@@ -79,7 +79,7 @@ logger.info(f"Data import finished at {my_date}")
 
 # Step 6: Send email
 t0 = time.time()
-send_email()
+# send_email()
 t1 = time.time()
 logger.info("Step 6: Done")
 logger.info("---> Email sent in", str(t1-t0), "seconds", "\n")
