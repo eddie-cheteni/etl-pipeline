@@ -1,2 +1,2 @@
 # etl-pipeline
-Data pipeline for importation
+Data pipeline for Viljoen Beverages' daily data.
