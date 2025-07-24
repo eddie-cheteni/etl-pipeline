@@ -33,7 +33,14 @@ jobs:
       # 4. Run data pipeline
       - name: Run data pipeline
         env:
+          HOSTNAME: ${{ secrets.HOSTNAME }} # import API key
           PASSWORD: ${{ secrets.PASSWORD }} # import API key
+          PORT: ${{ secrets.PORT }} # import API key
+          SFTP_HOST: ${{ secrets.SFTP_HOST }} # import API key
+          USER_NAME: ${{ secrets.USER_NAME }} # import API key  
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }} # import API key
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }} # import API key
+
         run: python etl_pipeline.py # run data pipeline
       
       # 5. Checking changes
