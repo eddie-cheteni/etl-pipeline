@@ -45,7 +45,6 @@ def setup_directories(base_path='data'):
         data_path / 'raw',
         data_path / 'staging',
         data_path / 'processed',
-        data_path / 'archive',
         data_path / 'logs'
     ]
     
@@ -58,10 +57,10 @@ def setup_directories(base_path='data'):
 # EXTRACT
 # ------------------
 def download_data():
-    sftpHost = '156.38.150.227'
-    sftpPort = 28
-    uname = 'viljoenbev'
-    pwd = 'VBev12@'
+    sftpHost = os.getenv('SFTP_HOST')
+    sftpPort = os.getenv('PORT')
+    uname = os.getenv('USER_NAME')
+    pwd = os.getenv('PASSWORD')
 
     cnopts = pysftp.CnOpts()
     current_date = datetime.now().strftime('%Y%m%d')
@@ -127,7 +126,7 @@ def extract_data():
     print(f"Date range: {df['Date'].min()} to {df['Date'].max()}")
     
     df.to_csv('./data/staging/viljoenbev.csv', index=False)
-       
+
     return None
 
 # ------------------
@@ -273,10 +272,10 @@ def upload_data_to_server():
     logger = get_run_logger()
     
     # Set SFTP connection parameters
-    sftp_host = '156.38.150.227'
-    sftp_port = 28
-    sftp_user = 'viljoenbev'
-    sftp_pass = 'VBev12@'
+    sftp_host = os.getenv('SFTP_HOST')
+    sftp_port = os.getenv('PORT')
+    sftp_user = os.getenv('USER_NAME')
+    sftp_pass = os.getenv('PASSWORD')
     
     # Set the CSV file path
     csv_file_path = os.path.join('./data/processed', glob('Viljoenbev_*.csv')[0])
@@ -342,10 +341,10 @@ def run_import_script(timeout: int=120):
     logger = get_run_logger()
     
     # SSH connection details
-    hostname = 'eroute2market.co.za'
-    port = 28
-    username = 'toby'
-    password = 'EroUte2m@rkeT'
+    hostname = os.getenv('HOST_NAME')
+    port = os.getenv('PORT')
+    username = os.getenv('FTP_USERNAME')
+    password = os.getenv('FTP_PASSWORD')
     command = '/usr/local/eroute2market/supply_chain/scripts/importtxns.pl /home/viljoenbev/data 1'
     
     # If no password provided, prompt for it securely
