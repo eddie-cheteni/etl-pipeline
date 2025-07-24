@@ -5,7 +5,7 @@ name: data-pipeline-workflow
 on:
   # push: # uncomment to run on push
   schedule:
-    - cron: "/15 * * * *" # run every minute
+    - cron: "30 8 * * *" # run everyday at 8:00
   workflow_dispatch:  # manual triggers
 
 # Jobs
@@ -23,7 +23,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v5
         with:
-          python-version: '>=3.7'
+          python-version: '>=3.8'
           cache: 'pip'
 
       #  3. Install dependencies
