@@ -404,7 +404,7 @@ def send_email():
     pythoncom.CoInitialize()
     outlook = win32.Dispatch('Outlook.Application')
     mail = outlook.CreateItem(0)
-    mail.To = "eddwin@eroute2market.co.za"
+    mail.To = ["eddwin@eroute2market.co.za","eddychetz@gmail.com"]
     mail.Subject = "Test Email from ETL process"
     mail.Body = "This is a test email sent using Outlook and Python"
     mail.Attachments.Add()
