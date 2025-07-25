@@ -4,4 +4,4 @@ numpy
 paramiko
 pysftp
 glob
-pyzipper
+#pyzipper
