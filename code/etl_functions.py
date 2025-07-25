@@ -6,7 +6,7 @@ import pandas as pd # type: ignore
 
 import pysftp # type: ignore
 import tempfile
-import zipfile2
+import zipfile36
 import shutil
 import logging
 
@@ -97,7 +97,7 @@ def extract_data():
     zip_file_path = os.path.join('./data/raw', glob('Vilbev-*.zip')[-1])
     
     # Open the ZIP file
-    with zipfile2.ZipFile(zip_file_path, 'r') as zip_ref:
+    with zipfile36.ZipFile(zip_file_path, 'r') as zip_ref:
         # List all files in the ZIP archive
         file_list = zip_ref.namelist()
         print("Files in the ZIP archive:", file_list)

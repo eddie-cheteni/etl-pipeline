@@ -4,4 +4,4 @@ numpy
 paramiko
 pysftp
 glob
-zipfile2=0.0.12
+zipfile36=0.1.3
