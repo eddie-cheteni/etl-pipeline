@@ -1,9 +1,10 @@
 name: data-pipeline-workflow
 
 on:
+  workflow_dispatch:  # Allow manual triggers
   schedule:
     - cron: "30 8 * * *"  # Run daily at 8:30 AM UTC
-  workflow_dispatch:  # Allow manual triggers
+  
 
 jobs:
   run-data-pipeline:
