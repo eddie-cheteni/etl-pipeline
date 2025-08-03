@@ -3,5 +3,3 @@ pandas
 numpy
 paramiko
 pysftp
-# glob2==0.7
-#pyzipper
