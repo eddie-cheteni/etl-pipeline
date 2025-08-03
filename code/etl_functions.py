@@ -24,7 +24,7 @@ from datetime import date, timedelta, datetime
 from typing import Tuple, Dict, List, Optional
 
 import sys
-from glob import glob
+# from glob import glob
 
 from tqdm.notebook import tqdm
 from tqdm.version import __version__ as tqdm__version__
@@ -95,7 +95,18 @@ def download_data():
 def extract_data():
     
     # Find the most recent ZIP file
-    zip_file_path = os.path.join('./data/raw', glob('Vilbev-*.zip')[-1])
+    # zip_file_path = os.path.join('./data/raw', glob('Vilbev-*.zip')[-1])
+    # Get list of files in the raw directory
+    files = os.listdir('./data/raw')
+
+    # Find all matching zip files and get the last one
+    zip_files = [f for f in files if f.startswith('Vilbev-') and f.endswith('.zip')]
+    if not zip_files:
+        raise FileNotFoundError("No matching ZIP files found in ./data/raw")
+
+    # Get the last file and join with directory path
+    last_zip = zip_files[-1]
+    zip_file_path = os.path.join('./data/raw', last_zip)
     
     # Open the ZIP file
     with pyzipper.AESZipFile(zip_file_path, 'r') as zip_ref:
@@ -196,7 +207,13 @@ def save_data():
     processed_path = os.path.join('./data/processed')
     
     # Delete all CSV files in the processed data directory before saving new one
-    csv_files = glob(os.path.join('./data/processed', '*.csv'))
+    # csv_files = glob(os.path.join('./data/processed', '*.csv'))
+    # Get all CSV files in the directory
+    csv_files = [
+        os.path.join('./data/processed', f) 
+        for f in os.listdir('./data/processed') 
+        if f.endswith('.csv')
+    ]
     for file in csv_files:
         try:
             os.remove(file)
@@ -233,8 +250,20 @@ def validate_data():
     """
     logger = get_run_logger()
     
-    df = os.path.join('./data/processed', glob('Viljoenbev_*.csv')[-1])
-    
+    # df = os.path.join('./data/processed', glob('Viljoenbev_*.csv')[-1])
+    # Get list of files in the directory
+    files = os.listdir('./data/processed')
+
+    # Find all files matching the pattern and get the last one
+    csv_files = [f for f in files if f.startswith('Viljoenbev_') and f.endswith('.csv')]
+    csv_file = csv_files[-1] if csv_files else None
+
+    # Join the path (with error handling)
+    if csv_file:
+        csv_file_path = os.path.join('./data/processed', csv_file)
+        df = pd.read_csv(csv_file_path)  # Assuming you're reading this into a DataFrame
+    else:
+        raise FileNotFoundError("No matching CSV files found")
     validation_errors = {
         "missing_quantity": df[df["Quantity"].isna()].index.tolist(),
         "missing_price": df[df["Price_Ex_Vat"].isna()].index.tolist(),
@@ -279,7 +308,15 @@ def upload_data_to_server():
     sftp_pass = os.getenv('PASSWORD')
     
     # Set the CSV file path
-    csv_file_path = os.path.join('./data/processed', glob('Viljoenbev_*.csv')[0])
+    # csv_file_path = os.path.join('./data/processed', glob('Viljoenbev_*.csv')[0])
+    # Get list of files in the directory
+    files = os.listdir('./data/processed')
+
+    # Find the first file that matches the pattern
+    csv_file = next(f for f in files if f.startswith('Viljoenbev_') and f.endswith('.csv'))
+
+    # Join the path
+    csv_file_path = os.path.join('./data/processed', csv_file)
     remote_dir = '/home/viljoenbev/data/'
     
     try:
